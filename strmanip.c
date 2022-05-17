@@ -29,7 +29,6 @@ char **split(char *s, const char *delim)
 				tokens[n++] = &s[i];
 			}
 		}
-
 		if (s[i++] == *delim)
 		{
 			for (j = 1; delim[j]; j++)
@@ -37,7 +36,6 @@ char **split(char *s, const char *delim)
 				if (s[i++] != delim[j])
 					break;
 			}
-
 			if (!delim[j]) /* if there's a match with the delim*/
 			{
 				for (k = i - j; k < i; k++)
