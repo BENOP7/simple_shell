@@ -1,1 +1,0 @@
-read on simple shell
