@@ -48,7 +48,7 @@ void non_interactive_op(char **argv, struct stat *st)
 		if (execve(argv[1], argv + 1, NULL) == -1)
 		{
 			perror("Error");
-			exit(1);
+			exit(1)
 		}
 	}
 }
@@ -97,7 +97,7 @@ void interactive(pid_t *my_pid, char *buf, size_t *n, char **args,
 }
 
 /**
- * free_variable - free all memory allocations in the program
+ * free_variables - free all memory allocations in the program
  * @buf: pointer to the memory buffer
  * Return: void
  */

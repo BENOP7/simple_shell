@@ -62,7 +62,7 @@ char *strjoin(const char *s1, const char *s2)
 }
 
 /**
- * _strdup1 - returns a pointer to a memory buffer containing a given string
+ * _strdup - returns a pointer to a memory buffer containing a given string
  * @str: string
  * Return: pointer to memory containing string
  */
