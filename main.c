@@ -60,7 +60,7 @@ void interactive(pid_t *my_pid, char *buf, size_t *n, char **args,
 		buf = malloc(*n);
 		if (!buf)
 			exit(1);
-		printf("$ ");
+		printf("#cisfun$  ");
 		if (getline(&buf, n, stdin) == -1)
 			exit(1);
 		args = split(buf, " ");
