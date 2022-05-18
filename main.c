@@ -32,6 +32,7 @@ int main(int argc, char **argv, char **env __attribute__((unused)))
 	}
 	else
 		non_interactive_op(argv, &st);
+	free_variables(buf);
 	return (0);
 }
 /**
@@ -60,24 +61,31 @@ void interactive(pid_t *my_pid, char *buf, size_t *n, char **args,
 		buf = malloc(*n);
 		if (!buf)
 			exit(1);
-		printf("#cisfun$  ");
+		printf("$ ");
 		if (getline(&buf, n, stdin) == -1)
+		{
+			free_variables(buf);
 			exit(1);
+		}
 		args = split(buf, " ");
-		args[1] = NULL;
 		if (strcmp(args[0], "exit") == 0)
+		{
+			free_variables(buf);
 			exit(0);
+		}
 		*my_pid = fork();
 		if (*my_pid == 0 && !stat(args[0], st))
 		{
 			if (execve(args[0], args, NULL) == -1)
 			{
+				free_variables(buf);
 				perror("Execve");
 				exit(1);
 			}
 		}
 		else if (*my_pid == 0)
 		{
+			free_variables(buf);
 			perror("Command not found");
 			exit(1);
 		}
@@ -86,4 +94,14 @@ void interactive(pid_t *my_pid, char *buf, size_t *n, char **args,
 			wait(status);
 		}
 	}
+}
+
+/**
+ * free_variable - free all memory allocations in the program
+ * @buf: pointer to the memory buffer
+ * Return: void
+ */
+void free_variables(char *buf)
+{
+	free(buf);
 }
