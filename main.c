@@ -23,58 +23,69 @@ int main(int argc, char **argv, char **env __attribute__((unused)))
 	int status;
 	char *buf = NULL;
 	size_t n = 90;
-	char **args;
+	char **args = NULL;
 	struct stat st;
 
 	if (argc == 1)
 	{
+		interactive(&my_pid, buf, &n, args, &status, &st);
+	}
+	else
+		non_interactive_op(argv, &st);
+	return (0);
+}
+/**
+ * non_interactive_op - non-interactive mode
+ * @argv: argument list
+ * @st: stat structure
+ * Return: void
+ */
+void non_interactive_op(char **argv, struct stat *st)
+{
+	if (stat(argv[1], st) == 0)
+	{
+		if (execve(argv[1], argv + 1, NULL) == -1)
+		{
+			perror("Error");
+			exit(1);
+		}
+	}
+}
+
+void interactive(pid_t *my_pid, char *buf, size_t *n, char **args,
+		int *status, struct stat *st)
+{
 	while (1)
 	{
-		buf = malloc(n);
+		buf = malloc(*n);
 		if (!buf)
-			return (1);
+			exit(1);
 		printf("$ ");
-		if (getline(&buf, &n, stdin) == -1)
-			return (0);
+		if (getline(&buf, n, stdin) == -1)
+			exit(1);
 		args = split(buf, " ");
-
 		if (strcmp(args[0], "cd") == 0)
 		{
 			chdir(args[1]);
 			continue;
 		}
-		my_pid = fork();
-
-        if (my_pid == 0 && !stat(args[0], &st))
-        {
-            if (execve(args[0], args, env) == -1)
-            {
-                perror("Execve");
-                return (3);
-            }
-        }
-	else if (my_pid == 0)
-	{
-		perror("Command not found");
-		return (2);
-	}
-        else
-        {
-            wait(&status);
-
-        }
-    }
-	}
-	else
-	{
-		if (stat(argv[1], &st) == 0)
+		*my_pid = fork();
+		if (*my_pid == 0 && !stat(args[0], st))
 		{
-			if (execve(argv[1], argv + 1, env) == -1)
+			if (execve(args[0], args, NULL) == -1)
 			{
-				perror("Error");
+				perror("Execve");
 				exit(1);
-			}	
+			}
+		}
+		else if (*my_pid == 0)
+		{
+			perror("Command not found");
+			exit(1);
+		}
+		else
+		{
+			wait(status);
 		}
 	}
-    return (0);
 }
