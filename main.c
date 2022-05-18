@@ -48,7 +48,7 @@ void non_interactive_op(char **argv, struct stat *st)
 		if (execve(argv[1], argv + 1, NULL) == -1)
 		{
 			perror("Error");
-			exit(1)
+			exit(1);
 		}
 	}
 }

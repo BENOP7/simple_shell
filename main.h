@@ -14,6 +14,7 @@ int _setenv(const char *, const char *, int);
 int _unsetenv(const char *);
 void non_interactive_op(char **, struct stat *);
 void interactive(pid_t *, char *, size_t *, char **, int *, struct stat *);
+void free_variables(char *);
 
 extern char **environ;
 
