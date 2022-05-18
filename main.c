@@ -64,6 +64,7 @@ void interactive(pid_t *my_pid, char *buf, size_t *n, char **args,
 		if (getline(&buf, n, stdin) == -1)
 			exit(1);
 		args = split(buf, " ");
+		args[1] = NULL;
 		if (strcmp(args[0], "exit") == 0)
 			exit(0);
 		*my_pid = fork();
