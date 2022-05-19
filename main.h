@@ -3,6 +3,8 @@
 
 #include <sys/stat.h>
 
+int _putchar(char c);
+void _puts(char *);
 char **split(char *s, const char *delim);
 char *_getenv(char *);
 char *strjoin(const char *, const char *); 

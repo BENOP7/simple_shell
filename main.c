@@ -61,7 +61,7 @@ void interactive(pid_t *my_pid, char *buf, size_t *n, char **args,
 		buf = malloc(*n);
 		if (!buf)
 			exit(1);
-		printf("$ ");
+		_puts("$ ");
 		if (getline(&buf, n, stdin) == -1)
 		{
 			free_variables(buf);
@@ -91,6 +91,7 @@ void interactive(pid_t *my_pid, char *buf, size_t *n, char **args,
 		}
 		else
 		{
+			free(buf);
 			wait(status);
 		}
 	}
