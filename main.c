@@ -39,13 +39,13 @@ int main(int argc, char **argv __attribute__((unused)),
 				_puts("$ ");
 			if ((k = getline(&buf, &n, stdin)) == -1)
 			{
-				return (EXIT_FAILURE);
+				return (0);
 			}
 			args = split(buf, " ");
 			if (strcmp(args[0], "exit") == 0)
 			{
 				free_variables(buf);
-				return (0);
+				return (EXIT_SUCCESS);
 			}
 			my_pid = fork();
 			if (my_pid == 0 && !stat(args[0], &st))
