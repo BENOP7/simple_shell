@@ -44,6 +44,7 @@ int main(int argc, char **argv __attribute__((unused)),
 				if (execve(args[0], args, NULL) == -1)
 				{
 					char *nm = *args;
+
 					free_variables(buf, args);
 					perror(nm);
 					return (EXIT_FAILURE);
@@ -64,6 +65,7 @@ int main(int argc, char **argv __attribute__((unused)),
 /**
  * free_variables - free all memory allocations in the program
  * @buf: pointer to the memory buffer
+ * @args: argument list
  */
 void free_variables(char *buf, char **args)
 {
@@ -74,6 +76,7 @@ void free_variables(char *buf, char **args)
 /**
  * check_EOF - check end of file
  * @k: return value of getline
+ * @buf: buffer
  * @args: argument list
  */
 void check_EOF(ssize_t k, char *buf, char **args)
@@ -85,6 +88,11 @@ void check_EOF(ssize_t k, char *buf, char **args)
 		exit(EXIT_SUCCESS);
 	}
 }
+
+/**
+ * check_exit - check if the program should stop
+ * @args: argument list
+ */
 void check_exit(char **args)
 {
 	if (_strcmp(args[0], "exit") == 0)
