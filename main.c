@@ -38,6 +38,8 @@ int main(int argc, char **argv __attribute__((unused)),
 			check_EOF(k, buf, args);
 			args = split(buf, " ");
 			check_exit(args);
+			if(_printenv(args) == 0)
+				continue;
 			my_pid = fork();
 			if (my_pid == 0 && !stat(args[0], &st))
 			{

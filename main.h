@@ -17,6 +17,7 @@ int _unsetenv(const char *);
 void free_variables(char *, char **);
 void check_EOF(ssize_t, char *, char **);
 void check_exit(char **);
+int _printenv(char **);
 
 extern char **environ;
 
