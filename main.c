@@ -24,36 +24,28 @@ int main(int argc, char **argv __attribute__((unused)),
 	int status;
 	ssize_t k = 0;
 	char *buf = NULL;
-	size_t n = 90;
+	size_t n = 0;
 	char **args = NULL;
 	struct stat st;
 
-	buf = malloc(n * sizeof(*buf));
-	if (!buf)
-		return (EXIT_FAILURE);
 	if (argc == 1)
 	{
-		while (k != EOF)
+		while (k >= 0)
 		{
 			if (isatty(STDIN_FILENO))
 				_puts("$ ");
-			if ((k = getline(&buf, &n, stdin)) == -1)
-			{
-				return (0);
-			}
+			k = getline(&buf, &n, stdin);
+			check_EOF(k, buf, args);
 			args = split(buf, " ");
-			if (strcmp(args[0], "exit") == 0)
-			{
-				free_variables(buf);
-				return (EXIT_SUCCESS);
-			}
+			check_exit(args);
 			my_pid = fork();
 			if (my_pid == 0 && !stat(args[0], &st))
 			{
 				if (execve(args[0], args, NULL) == -1)
 				{
-					free_variables(buf);
-					perror(args[0]);
+					char *nm = *args;
+					free_variables(buf, args);
+					perror(nm);
 					return (EXIT_FAILURE);
 				}
 			}
@@ -62,7 +54,7 @@ int main(int argc, char **argv __attribute__((unused)),
 				/*free_variables(buf);*/
 				perror(args[0]);
 				return (EXIT_FAILURE);
-			}			
+			}
 			wait(&status);
 		}
 	}
@@ -72,9 +64,31 @@ int main(int argc, char **argv __attribute__((unused)),
 /**
  * free_variables - free all memory allocations in the program
  * @buf: pointer to the memory buffer
- * Return: void
  */
-void free_variables(char *buf)
+void free_variables(char *buf, char **args)
 {
 	free(buf);
+	free(args);
+}
+
+/**
+ * check_EOF - check end of file
+ * @k: return value of getline
+ * @args: argument list
+ */
+void check_EOF(ssize_t k, char *buf, char **args)
+{
+
+	if (k == EOF)
+	{
+		free_variables(buf, args);
+		exit(EXIT_SUCCESS);
+	}
+}
+void check_exit(char **args)
+{
+	if (_strcmp(args[0], "exit") == 0)
+	{
+		exit(EXIT_SUCCESS);
+	}
 }

@@ -14,8 +14,9 @@ int _strcmp(const char *, const char *);
 char *_getenv(char *);
 int _setenv(const char *, const char *, int);
 int _unsetenv(const char *);
-void startcmdline(pid_t *, char *, size_t *, char **, int *, struct stat *);
-void free_variables(char *);
+void free_variables(char *, char **);
+void check_EOF(ssize_t, char *, char **);
+void check_exit(char **);
 
 extern char **environ;
 
