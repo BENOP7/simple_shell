@@ -38,23 +38,20 @@ int main(int argc, char **argv __attribute__((unused)),
 			check_EOF(k, buf, args);
 			args = split(buf, " ");
 			check_exit(args);
-			if(_printenv(args) == 0)
+			if (_printenv(args) == 0)
 				continue;
 			my_pid = fork();
 			if (my_pid == 0 && !stat(args[0], &st))
 			{
-				if (execve(args[0], args, NULL) == -1)
+				if (execve(args[0], args, environ) == -1)
 				{
-					char *nm = *args;
-
+					perror(args[0]);
 					free_variables(buf, args);
-					perror(nm);
 					return (EXIT_FAILURE);
 				}
 			}
-			else if (my_pid == 0)
+			else if (my_pid == 0 && stat(args[0], &st))
 			{
-				/*free_variables(buf);*/
 				perror(args[0]);
 				return (EXIT_FAILURE);
 			}
