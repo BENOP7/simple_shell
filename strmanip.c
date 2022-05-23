@@ -1,4 +1,3 @@
-#include <string.h>
 #include <stdlib.h>
 #include "main.h"
 
@@ -62,37 +61,43 @@ char *strjoin(const char *s1, const char *s2)
 }
 
 /**
- * _strdup - returns a pointer to a memory buffer containing a given string
+ * rmspc - returns a pointer to a memory buffer containing a given string
  * @str: string
  * Return: pointer to memory containing string
  */
-char *_strdup(char *str)
+char *rmspc(char *str)
 {
-	int i = 0;
-	char *membuff;
-	int j = 0;
+	char space = ' ';
+	char *ptr;
+	char *trim = NULL;
 
-	if (str == (char *) 0)
-		return ((char *) 0);
-
-	while (str[j])
+	while (*str)
 	{
-		j++;
+		trim = str;
+		if (*str != space)
+			break;
+		str++;
 	}
 
-	membuff = (char *) malloc((j + 1) * sizeof(char));
-
-	if (membuff == ((char *) 0))
-		return ((char *) 0);
-
-	for (i = 0; i <= j; i++)
+	while (*str)
 	{
-		membuff[i] = str[i];
+		ptr = str;
+		str++;
+		if (!*str)
+		{
+			while (*ptr == space || *ptr == '\n')
+			{
+				--ptr;
+				if (*ptr != space && *ptr != '\n')
+				{
+					*++ptr = '\0';
+				}
+			}
+		}
 	}
 
-	return (membuff);
+	return (trim);
 }
-
 /**
  * _strcmp - compares two strings
  * @s1: string
@@ -135,22 +140,20 @@ int _strcmp(const char *s1, const char *s2)
  */
 char **split(char *s, const char *delim)
 {
-	unsigned int i = 0;
-	unsigned int j = 0;
-	unsigned int n = 0;
-	unsigned int k = 0;
+	unsigned int i, j, n, k;
 	char **tokens = NULL;
-
+	
+	i = j = n = k = 0;
 	tokens = malloc(sizeof(*tokens) * _strlen(s));
 	if (!tokens)
 		return (NULL);
 	while (s[i])
 	{
-		if (i == 0)
+		if (i == 0 && s[i] != ' ')
 			tokens[n++] = &s[i];
 		else
 		{
-			if (i && s[i - 1] == '\0')
+			if (i && s[i - 1] == '\0' && s[i] != ' ')
 			{
 				tokens[n++] = &s[i];
 			}
@@ -176,3 +179,5 @@ char **split(char *s, const char *delim)
 	tokens[n] = NULL;
 	return (tokens);
 }
+
+

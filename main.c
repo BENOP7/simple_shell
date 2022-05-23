@@ -35,7 +35,7 @@ int main(int argc, char **argv __attribute__((unused)),
 			c = getline(&buf, &n, stdin);
 			if (c < 0)
 				break;
-			args = split(buf, " ");
+			args = split(rmspc(buf), " ");
 			execute(args);
 
 		}
