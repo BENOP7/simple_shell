@@ -141,7 +141,7 @@ char **split(char *s, const char *delim)
 	unsigned int k = 0;
 	char **tokens = NULL;
 
-	tokens = malloc(sizeof(*tokens) * strlen(s));
+	tokens = malloc(sizeof(*tokens) * _strlen(s));
 	if (!tokens)
 		return (NULL);
 	while (s[i])
