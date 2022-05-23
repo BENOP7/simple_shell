@@ -144,6 +144,8 @@ char **split(char *s, const char *delim)
 	char **tokens = NULL;
 	
 	i = j = n = k = 0;
+	if (!s || *s == '\0' || *s == '\n' || *s == ' ')
+		return (NULL);
 	tokens = malloc(sizeof(*tokens) * _strlen(s));
 	if (!tokens)
 		return (NULL);

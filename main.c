@@ -77,6 +77,9 @@ void execute(char **args)
 	pid_t pid;
 	int status;
 
+	if (!args || !*args)
+		return;
+
 	pid = fork();
 	switch (pid)
 	{
