@@ -76,13 +76,6 @@ void execute(char **args)
 {
 	pid_t pid;
 	int status;
-	unsigned int i = 0;
-
-	if (args == NULL || *args == NULL || **args == '\0')
-		return;
-
-	while (args[i])
-		printf("%s\n", args[i++]);
 
 	pid = fork();
 	switch (pid)
