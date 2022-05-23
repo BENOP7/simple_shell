@@ -79,6 +79,9 @@ char *rmspc(char *str)
 		str++;
 	}
 
+	if (!*str)
+		return NULL;
+
 	while (*str)
 	{
 		ptr = str;
@@ -144,6 +147,8 @@ char **split(char *s, const char *delim)
 	char **tokens = NULL;
 	
 	i = j = n = k = 0;
+	if (s == NULL || *s == '\n' || *s == ' ')
+		return (NULL);
 	tokens = malloc(sizeof(*tokens) * _strlen(s));
 	if (!tokens)
 		return (NULL);
