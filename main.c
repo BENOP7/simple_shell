@@ -32,7 +32,6 @@ int main(int argc, char **argv __attribute__((unused)),
 		{
 			if (isatty(STDIN_FILENO))
 				_puts("$ ");
-			printf("After getting commant\n");
 			c = getline(&buf, &n, stdin);
 			if (c < 0)
 				break;
