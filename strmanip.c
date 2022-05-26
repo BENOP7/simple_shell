@@ -145,7 +145,7 @@ int _strcmp(const char *s1, const char *s2)
 char **split(char *s)
 {
 	unsigned int i, n;
-	char **tokens = NULL;
+	char **tokens;
 	
 	i = n = 0;
 	if (!s)
@@ -153,6 +153,9 @@ char **split(char *s)
 	tokens = malloc(sizeof(*tokens) * _strlen(s));
 	if (!tokens)
 		return (NULL);
+	for (; (int) i < _strlen(s); i++)
+		tokens[i] = NULL;
+	i = 0;
 	while (s[i] != '\n')
 	{
 		while (s[i] == ' ' || s[i] == '\n')
@@ -165,10 +168,10 @@ char **split(char *s)
 			tokens[n++] = &s[i++];
 			continue;
 		}
-		if (s[i - 1] == '\0' && (s[i] != '\n' && s[i] != '\0'))
+		if (s[i - 1] == '\0' && s[i] != '\0')
 			tokens[n++] = &s[i];
 		++i;
-		if (s[i] == '\n')
+		if (s[i] == '\n' || s[i] == '\0')
 		{
 			s[i] = '\0';
 			break;

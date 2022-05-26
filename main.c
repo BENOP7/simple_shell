@@ -77,7 +77,6 @@ void execute(char **args)
 	pid_t pid;
 	int status;
 
-	printf("Before fork\n");
 	pid = fork();
 	switch (pid)
 	{
