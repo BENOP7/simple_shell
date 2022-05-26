@@ -7,7 +7,7 @@
 int _putchar(char c);
 void _puts(char *);
 char *rmspc(char *);
-char **split(char *s, const char *delim);
+char **split(char *s);
 char *_getenv(char *);
 char *strjoin(const char *, const char *);
 int _strlen(char *);

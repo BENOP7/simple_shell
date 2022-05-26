@@ -35,7 +35,7 @@ int main(int argc, char **argv __attribute__((unused)),
 			c = getline(&buf, &n, stdin);
 			if (c < 0)
 				break;
-			args = split(rmspc(buf), " ");
+			args = split(buf);
 			execute(args);
 
 		}
@@ -77,9 +77,7 @@ void execute(char **args)
 	pid_t pid;
 	int status;
 
-	if (!args || !*args)
-		return;
-
+	printf("Before fork\n");
 	pid = fork();
 	switch (pid)
 	{

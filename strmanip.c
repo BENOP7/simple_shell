@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include "main.h"
 
 /**
@@ -71,6 +72,9 @@ char *rmspc(char *str)
 	char *ptr;
 	char *trim = NULL;
 
+	if (!str)
+		return (NULL);
+
 	while (*str)
 	{
 		trim = str;
@@ -138,45 +142,37 @@ int _strcmp(const char *s1, const char *s2)
  * @delim: delimiter
  * Return: pointer to buffer that holds different strings
  */
-char **split(char *s, const char *delim)
+char **split(char *s)
 {
-	unsigned int i, j, n, k;
+	unsigned int i, n;
 	char **tokens = NULL;
 	
-	i = j = n = k = 0;
-	if (!s || *s == '\0' || *s == '\n' || *s == ' ')
+	i = n = 0;
+	if (!s)
 		return (NULL);
 	tokens = malloc(sizeof(*tokens) * _strlen(s));
 	if (!tokens)
 		return (NULL);
-	while (s[i])
+	while (s[i] != '\n')
 	{
-		if (i == 0 && s[i] != ' ')
-			tokens[n++] = &s[i];
-		else
+		while (s[i] == ' ' || s[i] == '\n')
 		{
-			if (i && s[i - 1] == '\0' && s[i] != ' ')
-			{
-				tokens[n++] = &s[i];
-			}
-		}
-		if (s[i++] == *delim)
-		{
-			for (j = 1; delim[j]; j++)
-			{
-				if (s[i++] != delim[j])
-					break;
-			}
-			if (!delim[j]) /* if there's a match with the delim*/
-			{
-				for (k = i - j; k < i; k++)
-				{
-					s[k] = '\0';
-				}
-			}
-		}
-		if (s[i + 1] == '\0' && s[i] == '\n')
 			s[i] = '\0';
+			++i;
+		}
+		if (i == 0 && s[i] != ' ' && s[i] != '\n')
+		{
+			tokens[n++] = &s[i++];
+			continue;
+		}
+		if (s[i - 1] == '\0' && (s[i] != '\n' && s[i] != '\0'))
+			tokens[n++] = &s[i];
+		++i;
+		if (s[i] == '\n')
+		{
+			s[i] = '\0';
+			break;
+		}
 	}
 	tokens[n] = NULL;
 	return (tokens);
